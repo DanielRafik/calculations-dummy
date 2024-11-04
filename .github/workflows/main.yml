@@ -1,0 +1,24 @@
+name: k6 Load Test
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          ssh-keyscan -H your-ec2-instance-url >> ~/.ssh/known_hosts
+
+      - name: Run k6 test on EC2
+        run: |
+          ssh -i ~/.ssh/id_ed25519 ubuntu@3.90.45.158 'k6 run /home/ubuntu/calculation-api/load-test.js'
