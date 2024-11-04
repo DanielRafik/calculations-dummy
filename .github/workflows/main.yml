@@ -17,7 +17,7 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H your-ec2-instance-url >> ~/.ssh/known_hosts
+          ssh-keyscan -H 3.90.45.158 >> ~/.ssh/known_hosts
 
       - name: Run k6 test on EC2
         run: |
