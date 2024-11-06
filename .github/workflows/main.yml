@@ -20,5 +20,8 @@ jobs:
           ssh-keyscan -H 3.90.45.158 >> ~/.ssh/known_hosts
 
       - name: Run k6 test on EC2
+        env:
+          K6_OUT: experimental-prometheus-rw
+          OUTPUT_PROMETHEUS_REMOTE_URL: http://3.90.45.158:9090/api/v1/write
         run: |
           ssh -i ~/.ssh/id_ed25519 ubuntu@3.90.45.158 'k6 run /home/ubuntu/calculation-api/load-test.js'
